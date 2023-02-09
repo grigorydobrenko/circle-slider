@@ -80,6 +80,22 @@ const App = () => {
             console.log(items)
 
             items.forEach((el: any, i) => {
+                console.log(el.className.includes('active'))
+
+                let hover = gsap.to(el, {
+                    scale: 9.3,
+                    color: 'blue',
+                    duration: 0.1,
+                    paused: true,
+                    ease: 'power1.inOut',
+                })
+
+                el.addEventListener('mouseenter', () => {
+                    hover.play()
+                    el.innerHTML = i
+                })
+                el.addEventListener('mouseleave', () => hover.reverse())
+
                 el.addEventListener('click', function () {
                     const current = tracker.item,
                         activeItem = i
@@ -87,6 +103,11 @@ const App = () => {
                     if (i === current) {
                         return
                     }
+
+                    el.removeEventListener('mouseenter', () => {
+                        hover.play()
+                        el.innerHTML = i
+                    })
 
                     //set active item to the item that was clicked and remove active class from all items
 
@@ -162,23 +183,21 @@ const App = () => {
                 Исторические <div>даты</div>
             </h1>
             <div className="wrapper">
-                <div className="item 1 active" onClick={() => setTimeSegment(1)}>
-                    1
-                </div>
+                <div className="item 1 active" onClick={() => setTimeSegment(1)}></div>
                 <div className="item 2" onClick={() => setTimeSegment(2)}>
                     2
                 </div>
                 <div className="item 3" onClick={() => setTimeSegment(3)}>
-                    3
+                    <span>3</span>
                 </div>
                 <div className="item 4" onClick={() => setTimeSegment(4)}>
-                    4
+                    <span>4</span>
                 </div>
                 <div className="item 5" onClick={() => setTimeSegment(5)}>
-                    5
+                    <span>5</span>
                 </div>
                 <div className="item 6 " onClick={() => setTimeSegment(6)}>
-                    6
+                    <span>6</span>
                 </div>
                 <svg viewBox="0 0 300 300" ref={svg}>
                     <circle id="holder" className="st0" cx="151" cy="151" r="150" />
